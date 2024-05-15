@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {IForecastItem} from "../shared/interfaces/forecast.interface";
 import {BehaviorSubject} from "rxjs";
+import {LatLng} from "leaflet";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,17 @@ export class HomeService {
 
   fetchForecast() {
     navigator.geolocation.getCurrentPosition(position => {
-     this.http.get<IForecastItem[]>(`http://localhost:5285/api/forecast?latitude=${position.coords.latitude}&longitude=${position.coords.longitude}`).subscribe(res => this.forecasts$.next(res));
+      const params = new HttpParams()
+        .set('latitude', position.coords.latitude.toString())
+        .set('longitude', position.coords.longitude.toString());
+     this.http.get<IForecastItem[]>(environment.apiUrl, {params}).subscribe(res => this.forecasts$.next(res));
     })
+  }
+
+  fetchForecastByCoords(latlng: LatLng) {
+    const params = new HttpParams()
+      .set('latitude', latlng.lat)
+      .set('longitude', latlng.lng);
+    this.http.get<IForecastItem[]>(environment.apiUrl, {params}).subscribe(res => this.forecasts$.next(res));
   }
 }

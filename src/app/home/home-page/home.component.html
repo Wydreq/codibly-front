@@ -7,7 +7,7 @@
       </ng-container>
       <ng-container matColumnDef="weatherCode">
         <th mat-header-cell *matHeaderCellDef> Weather </th>
-        <td mat-cell *matCellDef="let element"><img src="./assets/icons/{{getIconName(element.weatherCode)}}" alt="weather"/></td>
+        <td mat-cell *matCellDef="let element"><app-weather-icon [weatherCode]="element.weatherCode"></app-weather-icon></td>
       </ng-container>
       <ng-container matColumnDef="minTemperature">
         <th mat-header-cell *matHeaderCellDef> Minimal temperature </th>
@@ -25,7 +25,16 @@
       <tr mat-header-row *matHeaderRowDef="columnNames"></tr>
       <tr mat-row *matRowDef="let row; columns: columnNames;"></tr>
     </table>
-    <app-leaflet-map></app-leaflet-map>
+    @if(latlng){
+      <div class="coords-cont">
+        <span>Lat: {{latlng?.lat}}</span>
+        <span>Lng: {{latlng?.lng}}</span>
+        <button mat-flat-button color="primary" (click)="searchForCoords()">Search forecast</button>
+      </div>
+    } @else {
+      <h2>Click on map for forecast</h2>
+    }
+    <app-leaflet-map (mapClick)="handleMapClick($event)"></app-leaflet-map>
   } @else {
     <mat-spinner></mat-spinner>
   }
