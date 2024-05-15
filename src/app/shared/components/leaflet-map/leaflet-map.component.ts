@@ -15,9 +15,12 @@ export class LeafletMapComponent implements AfterViewInit {
 
   private initMap(): void {
     this.map = L.map('map', {
-      center: [ 50.86670430013982, 20.601599431828305 ],
+      center: [ 40.86670430013982, 10.601599431828305 ],
       zoom: 10
     });
+    navigator.geolocation.getCurrentPosition(position => {
+      this.map.setView([position.coords.latitude, position.coords.longitude]);
+    })
 
     const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
