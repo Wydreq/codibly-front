@@ -1,1 +1,33 @@
-<p>home works!</p>
+<div class="full-container">
+  @if(forecasts) {
+    <table mat-table [dataSource]="forecasts" class="mat-elevation-z8">
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef> Date </th>
+        <td mat-cell *matCellDef="let element"> {{element.date | date: "dd/MM/yyyy"}} </td>
+      </ng-container>
+      <ng-container matColumnDef="weatherCode">
+        <th mat-header-cell *matHeaderCellDef> Weather </th>
+        <td mat-cell *matCellDef="let element"><img src="./assets/icons/{{getIconName(element.weatherCode)}}" alt="weather"/></td>
+      </ng-container>
+      <ng-container matColumnDef="minTemperature">
+        <th mat-header-cell *matHeaderCellDef> Minimal temperature </th>
+        <td mat-cell *matCellDef="let element"> {{element.minTemperature}} {{element.energyUnits.minTemperature}}</td>
+      </ng-container>
+      <ng-container matColumnDef="maxTemperature">
+        <th mat-header-cell *matHeaderCellDef> Max temperature </th>
+        <td mat-cell *matCellDef="let element"> {{element.maxTemperature}} {{element.energyUnits.maxTemperature}}</td>
+      </ng-container>
+      <ng-container matColumnDef="estimatedGeneratedEnergy">
+        <th mat-header-cell *matHeaderCellDef>Estimated generated energy [kWh]</th>
+        <td mat-cell *matCellDef="let element"> {{element.estimatedGeneratedEnergy.toFixed(2)}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnNames"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnNames;"></tr>
+    </table>
+    <app-leaflet-map></app-leaflet-map>
+  } @else {
+    <mat-spinner></mat-spinner>
+  }
+
+</div>
