@@ -27,8 +27,8 @@
     </table>
     @if(latlng){
       <div class="coords-cont">
-        <span>Lat: {{latlng?.lat}}</span>
-        <span>Lng: {{latlng?.lng}}</span>
+        <span>Lat: {{latlng.lat}}</span>
+        <span>Lng: {{latlng.lng}}</span>
         <button mat-flat-button color="primary" (click)="searchForCoords()">Search forecast</button>
       </div>
     } @else {
